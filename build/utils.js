@@ -1,3 +1,4 @@
+// 解决无法获取变量import.meta.env.*
 export function wrapperEnv(envOptions) {
     if(!envOptions) return {}
     const env = {}
@@ -21,3 +22,20 @@ export function wrapperEnv(envOptions) {
     })
     return env
 }
+// 创建代理
+const httpsReg = /^https:\/\//;
+export function createProxy(proxyArr = []) {
+    const result = {}
+    proxyArr = proxyArr || []
+    proxyArr.forEach(([prefix, target], value) => {
+        const isHttps = httpsReg.test(target)
+        result[prefix] = {
+            target,
+            changeOrigin: true,
+            ws: true,
+            rewrite: (path) => path.replace(new RegExp(`^${prefix}`), ''),
+            ...(isHttps ? { secure: false } : {}),
+        }
+    })
+    return result
+}     
