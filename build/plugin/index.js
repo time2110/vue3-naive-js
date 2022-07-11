@@ -7,12 +7,14 @@ import VueSetupExtend from 'vite-plugin-vue-setup-extend'
 // rollup打包分析插件
 import visualizer from 'rollup-plugin-visualizer'
 import { configHtmlPlugin } from './html'
+import { unocss } from './unocss'
 
 export function createVitePlugins(viteEnv, isBuild) {
     const plugins = [
         vue(),
         VueSetupExtend(),
         configHtmlPlugin(viteEnv, isBuild),
+        unocss()
       ]
       if (isBuild) {
         plugins.push(
